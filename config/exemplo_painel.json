@@ -1,0 +1,40 @@
+{
+  "panel": "exemplo_IST",
+  "markers": [
+    {
+      "id": "CT_ompA",
+      "organism": "Chlamydia trachomatis",
+      "gene": "ompA (região 5')",
+      "type": "Detecção",
+      "expect": "Chlamydia trachomatis",
+      "reference": {"acc": "NC_000117.1", "start": 779500, "end": 780900},
+      "inclusivity": {"term": "Chlamydia trachomatis[orgn] AND ompA[gene]", "max": 40},
+      "exclusivity": [
+        {"term": "(Chlamydia muridarum[orgn] OR Chlamydia suis[orgn] OR Chlamydia pneumoniae[orgn]) AND ompA", "max": 40}
+      ],
+      "target": {"scan": [200, 1200]},
+      "note": "Detecta todos os sorovares, inclusive LGV."
+    },
+    {
+      "id": "NG_gyrA_S91F",
+      "organism": "Neisseria gonorrhoeae",
+      "gene": "gyrA S91F (ciprofloxacino)",
+      "type": "Resistência",
+      "expect": "Neisseria gonorrhoeae",
+      "reference": {"acc": "NC_002946.2", "start": 620300, "end": 621500},
+      "inclusivity": {"term": "Neisseria gonorrhoeae[orgn] AND gyrA[gene]", "max": 40},
+      "target": {"position": 619, "alt": "T"},
+      "note": "Códon TCC→TTC. Só interpretar se a detecção de NG for positiva."
+    },
+    {
+      "id": "HUM_GAPDH_intron1",
+      "organism": "Controle humano",
+      "gene": "GAPDH íntron 1",
+      "type": "Controle interno",
+      "expect": "Homo sapiens",
+      "reference": {"acc": "NC_000012.12", "start": 6534900, "end": 6536100},
+      "target": {"position": 600, "alt": "T"},
+      "note": "No íntron, para não amplificar pseudogenes (cópias sem íntron)."
+    }
+  ]
+}
