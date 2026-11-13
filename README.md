@@ -1,6 +1,6 @@
 # massarray-designer
 
-Ferramenta em Python para **desenhar e conferir ensaios de MassARRAY (Agena, química iPLEX)**
+Ferramenta em Python para **automatiza o download de sequencias do NCBI e faz o arquivo inicial para o desing de ensaios do MassARRAY (Agena, química iPLEX)**
 que detectam patógenos e mutações de resistência em amostras clínicas.
 
 Você entra com uma lista de alvos (por exemplo "HPV16", "Chlamydia trachomatis",
