@@ -1,7 +1,9 @@
-"""Arquivos de saída: FASTA das regiões, entrada do ADS, amplicons e planilha (CSV)."""
+"""Arquivos de saída: entrada do ADS (primers em maiúsculo), tabela TSV da Agena,
+FASTA das regiões, amplicons e planilha (CSV)."""
 import csv
 import os
 
+from .agena import plex, write_ads_input, write_assay_tsv
 from .seq import TAG
 
 
@@ -23,15 +25,13 @@ def write_all(markers, primers, outdir, panel="painel", info=None, status=None):
     os.makedirs(outdir, exist_ok=True)
     info = info or {}
     status = status or {}
-    fa, ads, ads_pl, amps = [], [], [], []
+    fa, amps = [], []
     rows = []
     for m in markers:
         i = m["id"]
         p = primers.get(i)
         head = f">{i} | {m.get('organism', '')} | {m.get('gene', '')} | {m.get('acc', '')}:{m.get('pos', '')}"
         fa.append(head + "\n" + region_with_brackets(m))
-        ads.append(f"{i}\t{region_with_brackets(m)}")
-        ads_pl.append(f"{i}\t{region_with_brackets(m, False)}")
         if p:
             a = m["plain"][p["Fpos"][0]:p["Rpos"][1] + 1]
             amps.append(f">{i} | {m.get('organism', '')} | {len(a)} pb\n{a}")
@@ -40,8 +40,11 @@ def write_all(markers, primers, outdir, panel="painel", info=None, status=None):
                      f"{p['ext_wt']} / {p['ext_mut']}" if p else "", p["amp"] if p else "",
                      status.get(i, ""), info.get(i, "" if p else "Sem primers: desenhar no ADS")])
     _write(os.path.join(outdir, f"{panel}_regioes.fasta"), "\n".join(fa) + "\n")
-    _write(os.path.join(outdir, f"{panel}_ADS_input_IUPAC.txt"), "\n".join(ads) + "\n")
-    _write(os.path.join(outdir, f"{panel}_ADS_input_simples.txt"), "\n".join(ads_pl) + "\n")
+    # entrada do ADS: primers de PCR em MAIÚSCULO, resto (inclusive o lugar do UEP) em minúsculo
+    write_ads_input(os.path.join(outdir, f"{panel}_ADS_entrada.txt"), markers, primers)
+    # tabela de ensaios no layout da Agena (TSV), com poços sugeridos
+    good = {k: v for k, v in primers.items() if v}
+    write_assay_tsv(os.path.join(outdir, f"{panel}_ensaios_agena.tsv"), markers, good, plex(markers, good))
     _write(os.path.join(outdir, f"{panel}_amplicons.fasta"), "\n".join(amps) + "\n")
     with open(os.path.join(outdir, f"{panel}_lista_final.csv"), "w", newline="", encoding="utf-8") as f:
         w = csv.writer(f)

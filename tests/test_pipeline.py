@@ -151,6 +151,78 @@ class TestExamplePanels(unittest.TestCase):
             self.assertEqual(len(amp), p["amp"], i)
 
 
+class TestAgenaFormat(unittest.TestCase):
+    """Regras finais pedidas pelo laboratório (Hema): ambiguidade só no 5',
+    primers em maiúsculo no arquivo do ADS e tabela TSV da Agena."""
+
+    def test_ambiguity_rule(self):
+        from massarray.seq import ambiguity_only_5prime
+        self.assertTrue(ambiguity_only_5prime("ACGTACGTACGTACGTACGT"))
+        self.assertTrue(ambiguity_only_5prime("ARGTACGTACGTACGTACGT"))     # perto do 5'
+        self.assertFalse(ambiguity_only_5prime("ACGTACGTACGTACGTARGT"))    # perto do 3'
+        self.assertFalse(ambiguity_only_5prime("RYSWACGTACGTACGTACGT"))    # mais de 2
+
+    def test_design_respects_rule(self):
+        ref = rand_seq(1500)
+        inc = [mutate(ref, 0.01) for _ in range(20)]
+        m = build_marker("X", ref, 700, inc)
+        iu = list(m["iu"])
+        for k in range(0, len(iu), 9):                    # muitas posições variáveis
+            if abs(k - m["F"]) > 20:
+                iu[k] = "R"
+        m["iu"] = "".join(iu)
+        d = design_with_fallbacks(m)
+        if d:
+            from massarray.seq import ambiguity_only_5prime
+            self.assertTrue(ambiguity_only_5prime(d["F"]) and ambiguity_only_5prime(d["R"]))
+            self.assertTrue(all(c in "ACGT" for c in d["E"]))
+
+    def _vag(self):
+        ms = _load(os.path.join(EX, "painel_vaginal_IST_70", "markers.json"))
+        pr = _load(os.path.join(EX, "painel_vaginal_IST_70", "primers.json"))
+        return ms, pr
+
+    def test_ads_sequence_case(self):
+        from massarray.agena import ads_sequence, check_ads_sequence
+        ms, pr = self._vag()
+        for m in ms:
+            a = pr[m["id"]]
+            s = ads_sequence(m, a)
+            self.assertEqual(check_ads_sequence(s, a), [], m["id"])
+            # o UEP fica em minúsculo (o ADS desenha)
+            self.assertNotIn(a["E"], s.split("[")[0] + s.split("]")[1])
+
+    def test_assay_tsv_and_plex(self):
+        import csv
+        import tempfile
+        from massarray.agena import COLUMNS, TERMINATOR_MASS, plex, write_assay_tsv
+        ms, pr = self._vag()
+        wells = plex(ms, pr)
+        self.assertEqual(set(wells), set(pr))
+        path = os.path.join(tempfile.mkdtemp(), "x.tsv")
+        write_assay_tsv(path, ms, pr, wells)
+        with open(path) as f:
+            rows = list(csv.DictReader(f, delimiter="\t"))
+        self.assertEqual(list(rows[0].keys()), COLUMNS)
+        self.assertEqual(len(rows), 70)
+        by_well = {}
+        for r in rows:
+            self.assertTrue(r["1st-PCRP"].startswith("ACGTTGGATG"))
+            self.assertAlmostEqual(float(r["EXT1_MASS"]) - float(r["UEP_MASS"]),
+                                   TERMINATOR_MASS[r["EXT1_CALL"]], places=0)
+            by_well.setdefault(r["WELL"], []).append(r)
+        # dentro de cada poço todas as massas ficam a >= 30 Da
+        for w, rs in by_well.items():
+            ms_ = [(r["SNP_ID"], float(r[k])) for r in rs for k in ("UEP_MASS", "EXT1_MASS", "EXT2_MASS")]
+            for i, (a, x) in enumerate(ms_):
+                for b, y in ms_[i + 1:]:
+                    if a != b:
+                        self.assertGreaterEqual(abs(x - y), 30, (w, a, b))
+        # ensaios do mesmo lugar (ERG11 Y132F e K143R) em poços diferentes
+        self.assertNotEqual(wells["CALB_ERG11_Y132F"], wells["CALB_ERG11_K143R"])
+        self.assertNotEqual(wells["MG_23S_A2058G"], wells["MG_23S_A2059G"])
+
+
 class TestCliOffline(unittest.TestCase):
     """Roda os passos markers -> primers -> check -> export com um 'cache' falso
     (sem internet), para garantir que a linha de comando funciona de ponta a ponta."""
@@ -190,7 +262,8 @@ class TestCliOffline(unittest.TestCase):
             cli.cmd_check(c, work)
             cli.cmd_export(c, work)
             out = os.path.join(work, "saida")
-            self.assertTrue(os.path.exists(os.path.join(out, "teste_ADS_input_IUPAC.txt")))
+            self.assertTrue(os.path.exists(os.path.join(out, "teste_ADS_entrada.txt")))
+            self.assertTrue(os.path.exists(os.path.join(out, "teste_ensaios_agena.tsv")))
             with open(os.path.join(work, "check.json")) as f:
                 ck = json.load(f)
             for i in ("A_gene", "B_snp"):

@@ -639,18 +639,18 @@
 },
 "HPV82_E6E7": {
 "score": 3.97,
-"F": "ATAYGCCATATGCAGYATGCAAAAA",
+"F": "AGGGAYAATAYGCCATATGCAG",
 "R": "GGCCTCTAATGTAGCACCATAC",
 "Fpos": [
-62,
-86
+55,
+76
 ],
 "Rpos": [
 141,
 162
 ],
-"amp": 101,
-"tF": 59.6,
+"amp": 108,
+"tF": 57.8,
 "tR": 59.6,
 "E": "GACCTACTATACCTTCT",
 "Estrand": "-",
@@ -658,7 +658,8 @@
 "Emass": 5080.4,
 "ext_wt": "G",
 "ext_mut": "A",
-"relaxed": true
+"relaxed": true,
+"revisao_hema": "primer trocado: ambiguidade só na metade 5'"
 },
 "CT_ompA": {
 "score": null,
@@ -888,16 +889,16 @@
 "HSV2_US4": {
 "score": 1.55,
 "F": "CCTCGGGCTTTGGTGTTTT",
-"R": "TCCCCGGAAGACCRGAAAG",
+"R": "GATTAATTGGTCCGGGGACAC",
 "Fpos": [
 51,
 69
 ],
 "Rpos": [
-131,
-149
+165,
+185
 ],
-"amp": 99,
+"amp": 135,
 "tF": 59.9,
 "tR": 60.0,
 "E": "CTCCCAGGTTGCTTC",
@@ -906,7 +907,8 @@
 "Emass": 4495.0,
 "ext_wt": "T",
 "ext_mut": "C",
-"relaxed": true
+"relaxed": true,
+"revisao_hema": "primer trocado: ambiguidade só na metade 5'"
 },
 "VZV_ORF29": {
 "score": 1.72,
@@ -955,25 +957,26 @@
 "CAND_pan_5.8S": {
 "score": 5.08,
 "F": "CCAGAGGTCTAAACTTACAACCAA",
-"R": "CAWTTCGCTGCGYTCTTCATC",
+"R": "TCGCTGCGYTCTTCATC",
 "Fpos": [
 35,
 58
 ],
 "Rpos": [
 136,
-156
+152
 ],
-"amp": 122,
+"amp": 118,
 "tF": 59.6,
-"tR": 59.3,
+"tR": 55.7,
 "E": "GATGCGAGAACCAAG",
 "Estrand": "-",
 "tE": 46.8,
 "Emass": 4635.1,
 "ext_wt": "A",
 "ext_mut": "G",
-"relaxed": true
+"relaxed": true,
+"revisao_hema": "primer trocado: ambiguidade só na metade 5'"
 },
 "CALB_ITS": {
 "score": 0.59,
@@ -1551,16 +1554,16 @@
 "NG_gyrA_S91F": {
 "score": 0.6,
 "F": "ACTGGAATGCCGCCTACA",
-"R": "ACGGACGATGGTGBCGTAA",
+"R": "CGAAATTTTGCGCCATACGG",
 "Fpos": [
 45,
 62
 ],
 "Rpos": [
-127,
-145
+142,
+161
 ],
-"amp": 101,
+"amp": 117,
 "tF": 60.0,
 "tR": 60.1,
 "E": "CCCCCACGGCGATT",
@@ -1569,7 +1572,8 @@
 "Emass": 4184.8,
 "ext_wt": "C",
 "ext_mut": "T",
-"relaxed": true
+"relaxed": true,
+"revisao_hema": "primer trocado: ambiguidade só na metade 5'"
 },
 "TP_23S_A2058G": {
 "score": 1.98,
@@ -1617,18 +1621,18 @@
 },
 "CALB_ERG11_Y132F": {
 "score": 9.03,
-"F": "TGATGTTTCTGYTGAAGAWGCTTAT",
+"F": "GCTTATAARCATTTAACTACTCCAGT",
 "R": "AATCAGTAGTCAAAGCAAATTTAGC",
 "Fpos": [
-55,
-79
+74,
+99
 ],
 "Rpos": [
 161,
 185
 ],
-"amp": 131,
-"tF": 58.0,
+"amp": 112,
+"tF": 56.7,
 "tR": 57.8,
 "E": "CGGTAAAGGGGTTATTT",
 "Estrand": "+",
@@ -1636,7 +1640,8 @@
 "Emass": 5280.5,
 "ext_wt": "A",
 "ext_mut": "T",
-"relaxed": true
+"relaxed": true,
+"revisao_hema": "primer trocado: ambiguidade só na metade 5'"
 },
 "CALB_ERG11_K143R": {
 "score": 9.52,

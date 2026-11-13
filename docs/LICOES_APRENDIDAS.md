@@ -45,6 +45,15 @@ as outras precisam de olho humano.
     ao de *M. pneumoniae*.
 11. **Amplicons >120 pb** funcionam, mas o ADS pode encurtar. Anote.
 
+12b. **Base ambígua só na metade 5' do primer de PCR** (orientação do Hema). A enzima começa pela
+    ponta 3'; uma base errada ali derruba a PCR. Dez primers dos dois painéis tinham ambiguidade perto
+    do 3' e foram trocados. Em todos, a cobertura das cepas ficou igual ou melhor (rinovírus: 45 → 56
+    de 60). → `seq.ambiguity_only_5prime` no desenho e na conferência.
+12c. **Formato do ADS**: primers de PCR em MAIÚSCULO e o resto em minúsculo; o ADS mantém os primers
+    e desenha o UEP. → `agena.write_ads_input`.
+12d. **Ensaios da mesma região não vão no mesmo poço** (ex.: ERG11 Y132F e K143R têm primers
+    sobrepostos). → `agena.plex` separa automaticamente.
+
 ## NCBI
 
 12. **BLAST: um amplicon por pedido.** Dez juntos (com HPV16/18) ficaram >1 h na fila; um por um,

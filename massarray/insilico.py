@@ -167,6 +167,10 @@ def verify_placement(marker, assay):
         probs.append("primer de PCR sobreposto ao primer de extensão")
     if any(c not in "ACGT" for c in E):
         probs.append("primer de extensão degenerado (não pode no iPLEX)")
+    from .seq import ambiguity_only_5prime
+    for nome in ("F", "R"):
+        if not ambiguity_only_5prime(assay[nome]):
+            probs.append(f"primer {nome} com base ambígua na metade 3' (só pode na metade 5')")
     var_e = [i for i in range(e_lo, e_hi + 1) if iu[i] not in "ACGT"]
     if var_e:
         probs.append(f"aviso: posição variável embaixo do primer de extensão ({len(var_e)})")

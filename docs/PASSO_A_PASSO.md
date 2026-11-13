@@ -81,11 +81,17 @@ erro de cadastro? nome novo? parente real? (ver `LICOES_APRENDIDAS.md`).
 python -m massarray export config/<painel>.json
 ```
 Em `work/<painel>/saida/`:
-- `<painel>_regioes.fasta` — regiões com IUPAC e `[X/Y]` (é o que a chefe chama de "fasta das regiões")
-- `<painel>_ADS_input_IUPAC.txt` — para carregar direto no ADS
-- `<painel>_ADS_input_simples.txt` — igual, sem IUPAC (só se o ADS reclamar)
-- `<painel>_amplicons.fasta` — os produtos de PCR
+- `<painel>_ADS_entrada.txt` — **para carregar no ADS**: primers de PCR em MAIÚSCULO, resto em minúsculo
+  (o ADS mantém nossos primers e desenha o primer de extensão)
+- `<painel>_ensaios_agena.tsv` — tabela de ensaios no layout da Agena (primers, UEP, massas, poço sugerido)
 - `<painel>_lista_final.csv` — planilha (abrir no Excel/Sheets)
+- `<painel>_regioes.fasta` — regiões com IUPAC e `[X/Y]` (o "fasta das regiões")
+- `<painel>_amplicons.fasta` — os produtos de PCR
+
+Para um painel que já está pronto (só gerar os arquivos da Agena):
+```bash
+python -m massarray agena markers.json primers.json pasta_saida/ nome_do_painel
+```
 
 ## 8. Conferência final
 

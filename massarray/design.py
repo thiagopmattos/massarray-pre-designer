@@ -6,7 +6,9 @@
 
 Regras (as mesmas usadas nos painéis respiratório e vaginal):
   - PCR: 18–25 nt, Tm 55–64 °C (alvo 60), GC 30–70%, sem 5 bases iguais,
-    <=3 G/C nas 5 últimas bases, SEM base variável (IUPAC) no primer.
+    <=3 G/C nas 5 últimas bases. De preferência SEM base variável (IUPAC);
+    se for inevitável (vírus muito variáveis), até 2 bases ambíguas e SÓ na
+    metade 5' do primer (nunca perto da ponta 3').
   - Amplicon: 70–130 pb (ideal ~100; o iPLEX trabalha bem com 80–120).
   - UEP: 15–28 nt, SEM base variável, Tm >=47 °C (condição da extensão).
   - Sem dímero de ponta 3' entre os três primers.
@@ -17,8 +19,8 @@ Regras (as mesmas usadas nos painéis respiratório e vaginal):
     se ligar (<=1 erro, ponta 3' exata) em >= inc_frac delas.
 """
 from .insilico import primer_hits
-from .seq import (comp, has_run, is_clean, mass, ok_pcr_primer, rc, three_prime_dimer,
-                  tm, tm_ext)
+from .seq import (ambiguity_only_5prime, comp, has_run, is_clean, mass, ok_pcr_primer, rc,
+                  three_prime_dimer, tm, tm_ext)
 
 DEFAULTS = dict(len_min=18, len_max=25, tm_min=55.0, tm_max=64.0, tm_opt=60.0,
                 amp_min=70, amp_max=130, amp_opt=100, uep_min=15, uep_max=28,
@@ -47,8 +49,7 @@ def _pcr_ok(p, allow_deg):
         return True
     if not allow_deg:
         return False
-    deg = [i for i, c in enumerate(p) if c not in "ACGT"]
-    if len(deg) > 2 or any(i >= len(p) - 5 for i in deg):
+    if not ambiguity_only_5prime(p):
         return False
     q = "".join(c if c in "ACGT" else "A" for c in p)
     return ok_pcr_primer(q, 0.25, 0.72)

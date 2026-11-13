@@ -113,6 +113,17 @@ def ok_pcr_primer(p, gc_min=0.30, gc_max=0.70):
     return True
 
 
+def ambiguity_only_5prime(p, max_amb=2):
+    """Regra do iPLEX/ADS (orientação do Hema): base ambígua (IUPAC) só na METADE 5'
+    do primer de PCR, nunca perto da ponta 3' (é dali que a enzima começa a copiar;
+    uma base errada ali derruba a PCR). No máximo 2 bases ambíguas por primer.
+    Primer sem ambiguidade passa direto."""
+    amb = [i for i, c in enumerate(p.upper()) if c not in "ACGT"]
+    if len(amb) > max_amb:
+        return False
+    return all(len(p) - i > len(p) / 2 for i in amb)
+
+
 def three_prime_dimer(a, b, n=5):
     """True se as últimas n bases de 'a' são complementares a algum trecho de 'b'."""
     return a[-n:] in rc(b)

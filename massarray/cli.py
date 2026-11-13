@@ -9,6 +9,7 @@ Uso (dentro da pasta do repositório):
     python -m massarray blast   config/meu_painel.json         # 5. BLAST dos amplicons (lento)
     python -m massarray export  config/meu_painel.json         # 6. FASTA, ADS e planilha
     python -m massarray verify  markers.json primers.json      # confere um painel já pronto (offline)
+    python -m massarray agena   markers.json primers.json saida/   # gera os arquivos da Agena de um painel pronto
 
 Tudo fica em work/<nome_do_painel>/ (cache do NCBI, JSONs intermediários e saídas).
 """
@@ -217,6 +218,25 @@ def cmd_verify(markers_path, primers_path):
     return bad
 
 
+def cmd_agena(markers_path, primers_path, outdir, panel="painel"):
+    """Gera, de um painel já pronto, a entrada do ADS (primers em maiúsculo) e a
+    tabela de ensaios TSV com poços sugeridos."""
+    from .agena import plex, write_ads_input, write_assay_tsv
+    with open(markers_path, encoding="utf-8") as f:
+        ms = json.load(f)
+    with open(primers_path, encoding="utf-8") as f:
+        pr = json.load(f)
+    if isinstance(ms, dict):
+        ms = list(ms.values())
+    os.makedirs(outdir, exist_ok=True)
+    good = {k: v for k, v in pr.items() if v}
+    wells = plex(ms, good)
+    a = write_ads_input(os.path.join(outdir, f"{panel}_ADS_entrada.txt"), ms, pr)
+    b = write_assay_tsv(os.path.join(outdir, f"{panel}_ensaios_agena.tsv"), ms, good, wells)
+    n = len(set(wells.values()))
+    log(f"{a}\n{b}\n{len(good)} ensaios, {n} poços sugeridos")
+
+
 def main(argv=None):
     argv = argv or sys.argv[1:]
     if not argv or argv[0] in ("-h", "--help"):
@@ -224,6 +244,9 @@ def main(argv=None):
     cmd = argv[0]
     if cmd == "verify":
         return 1 if cmd_verify(argv[1], argv[2]) else 0
+    if cmd == "agena":
+        cmd_agena(argv[1], argv[2], argv[3], argv[4] if len(argv) > 4 else "painel")
+        return 0
     cfg, work = load_cfg(argv[1])
     steps = {"fetch": cmd_fetch, "markers": cmd_markers, "primers": cmd_primers,
              "check": cmd_check, "blast": cmd_blast, "export": cmd_export}

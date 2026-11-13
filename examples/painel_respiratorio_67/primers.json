@@ -111,18 +111,18 @@
 },
 "H5_HA": {
 "score": 2.89,
-"F": "ATGGGGTGAAGCCWCTGAT",
+"F": "GYGAYCTAAATGGGGTGAAGCC",
 "R": "ARGACCATTCCGGCACTCT",
 "Fpos": [
-75,
-93
+66,
+87
 ],
 "Rpos": [
 155,
 173
 ],
-"amp": 99,
-"tF": 60.0,
+"amp": 108,
+"tF": 60.2,
 "tR": 60.0,
 "E": "GYAGTGTAGCTGGAT",
 "Estrand": "+",
@@ -130,7 +130,8 @@
 "Emass": 4358.9,
 "ext_wt": "G",
 "ext_mut": "A",
-"relaxed": true
+"relaxed": true,
+"revisao_hema": "primer trocado: ambiguidade só na metade 5'"
 },
 "FLUB_NS": {
 "score": 0.53,
@@ -244,18 +245,18 @@
 },
 "RV": {
 "score": 5.09,
-"F": "GTGAAGAGCCSCGTGTGC",
-"R": "ACCCAAAGTAGTYGGTYCCATCC",
+"F": "GAAGAGCCSCGTGTGCT",
+"R": "ACACGGACACCCAAAGTAGT",
 "Fpos": [
-77,
-94
+79,
+95
 ],
 "Rpos": [
-191,
-213
+202,
+221
 ],
-"amp": 137,
-"tF": 60.4,
+"amp": 143,
+"tF": 58.6,
 "tR": 60.2,
 "E": "TCCTCCGGCCCCTGA",
 "Estrand": "+",
@@ -263,7 +264,8 @@
 "Emass": 4464.9,
 "ext_wt": "A",
 "ext_mut": "G",
-"relaxed": true
+"relaxed": true,
+"revisao_hema": "primer trocado: ambiguidade só na metade 5'"
 },
 "ADV": {
 "score": 0.99,
@@ -487,18 +489,18 @@
 },
 "PIV4": {
 "score": 11.41,
-"F": "ATYTGGCAACAACAATMATGAGAT",
+"F": "GTTCCAATYTGGCAACAACAA",
 "R": "TCAAAAGTTARTTGTCTAATAGCCA",
 "Fpos": [
-47,
-70
+41,
+61
 ],
 "Rpos": [
 122,
 146
 ],
-"amp": 100,
-"tF": 56.1,
+"amp": 106,
+"tF": 56.6,
 "tR": 56.2,
 "E": "GCAATAAGACTRAATATATT",
 "Estrand": "+",
@@ -506,7 +508,8 @@
 "Emass": 5818.9,
 "ext_wt": "C",
 "ext_mut": "T",
-"relaxed": true
+"relaxed": true,
+"revisao_hema": "primer trocado: ambiguidade só na metade 5'"
 },
 "MPN_CARDS": {
 "score": 1.75,
@@ -1084,18 +1087,18 @@
 },
 "AMR_OXA48": {
 "score": 4.62,
-"F": "GACAGACGCGHGATATCGC",
+"F": "CAAGTCTTTAARTGGGATGGACA",
 "R": "YGCCTCRCCAATTTGGCG",
 "Fpos": [
-34,
-52
+15,
+37
 ],
 "Rpos": [
 126,
 143
 ],
-"amp": 110,
-"tF": 59.6,
+"amp": 129,
+"tF": 58.0,
 "tR": 59.7,
 "E": "GCCTGTTTATCAAGAA",
 "Estrand": "+",
@@ -1103,7 +1106,8 @@
 "Emass": 4880.3,
 "ext_wt": "T",
 "ext_mut": "C",
-"relaxed": true
+"relaxed": true,
+"revisao_hema": "primer trocado: ambiguidade só na metade 5'"
 },
 "ASP_rRNA_fungos": {
 "score": 6.33,
